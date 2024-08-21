@@ -10,7 +10,17 @@ class Order(models.Model):
         (LIVE, 'Live'),
         (DELETE, 'Delete'),
     ]
-
+    CART_STAGE = 0
+    ORDER_CONFIMED = 1
+    ORDER_PROCESSED = 2
+    ORDER_DELIVERED = 3
+    ORDER_REJECTED = 4
+    STATUS_CHOICES = (
+        (ORDER_PROCESSED, "ORDER_PROCESSED")
+        (ORDER_DELIVERED, "ORDER_DELIVERED")
+        (ORDER_REJECTED, "ORDER_REJECTED")
+    )
+    order_status = models.IntegerField(choices=STATUS_CHOICES , default= CART_STAGE)
     owner = models.ForeignKey(Customer, on_delete=models.SET_NULL, related_name="orders", null=True)
     address = models.TextField()  
     user = models.OneToOneField(Customer, on_delete=models.CASCADE, related_name="user_profile")  
