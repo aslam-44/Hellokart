@@ -1,7 +1,9 @@
 from django.db import models
+
 from customers.models import Customer
 from products.models import Product
 
+#model for orders
 class Order(models.Model):
     LIVE = 1
     DELETE = 0
@@ -16,9 +18,9 @@ class Order(models.Model):
     ORDER_DELIVERED = 3
     ORDER_REJECTED = 4
     STATUS_CHOICES = (
-        (ORDER_PROCESSED, "ORDER_PROCESSED")
-        (ORDER_DELIVERED, "ORDER_DELIVERED")
-        (ORDER_REJECTED, "ORDER_REJECTED")
+        (ORDER_PROCESSED, "ORDER_PROCESSED"),
+        (ORDER_DELIVERED, "ORDER_DELIVERED"),
+        (ORDER_REJECTED, "ORDER_REJECTED"),
     )
     order_status = models.IntegerField(choices=STATUS_CHOICES , default= CART_STAGE)
     owner = models.ForeignKey(Customer, on_delete=models.SET_NULL, related_name="orders", null=True)
@@ -32,6 +34,8 @@ class Order(models.Model):
     def __str__(self):
         return f"Order by {self.owner} at {self.created_at}"
 
+
+#model for items in cart
 class OrderItem(models.Model): 
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, related_name="added_carts", null=True)
     quantity = models.IntegerField(default=1)
